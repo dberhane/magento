@@ -1,0 +1,16 @@
+
+<VirtualHost *:80>
+  DocumentRoot "/opt/sites/magento"
+  ServerName magento.vbox.local
+  <Directory "/opt/sites/magento">
+    AllowOverride All
+  </Directory>
+</VirtualHost>
+
+<VirtualHost *:8080>
+  DocumentRoot "/opt/sites/magento"
+  ServerName magento.vbox.local
+  <Directory "/opt/sites/magento">
+    AllowOverride All
+  </Directory>
+</VirtualHost>
