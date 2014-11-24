@@ -5,7 +5,7 @@
 Vagrant and Puppet provisioner script which deploys Magento local development environment:
 
  - 64 bit Trusty
- - full lamp stack (PHP, PEAR, PECL, MySQL, Memcached, Git, etc..)
+ - full lamp stack (PHP-5.4, PEAR, PECL, MySQL-5.6, Memcached, Git, etc..)
  
 ## Requirements
 
