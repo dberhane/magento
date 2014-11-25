@@ -13,28 +13,36 @@ class apache {
     require => Package["apache2"]
   }
 
+# ensures that mcrypt.ini is loaded in Apache
+  file { "/etc/php5/apache2/conf.d/mcrypt.ini":
+    ensure  => link,
+    target  => "/etc/php5/mods-available/mcrypt.ini",
+    require => [Service["apache2"], Class["php"]]
+  }
+
+
 # create directory
   file { "/etc/apache2/sites-enabled":
     ensure  => directory,
     recurse => true,
     purge   => true,
     force   => true,
-    before  => File["/etc/apache2/sites-enabled/vagrant_webroot"],
+    before  => File["/etc/apache2/sites-enabled/vagrant_webroot.conf"],
     require => Package["apache2"],
   }
 
 # create apache config from main vagrant manifests
-  file { "/etc/apache2/sites-available/vagrant_webroot":
+  file { "/etc/apache2/sites-available/vagrant_webroot.conf":
     ensure  => present,
-    source => 'puppet:///modules/apache/vagrant_webroot',
+    source => 'puppet:///modules/apache/vagrant_webroot.conf',
     require => Package["apache2"],
   }
 
 # symlink apache site to the site-enabled directory
-  file { "/etc/apache2/sites-enabled/vagrant_webroot":
+  file { "/etc/apache2/sites-enabled/vagrant_webroot.conf":
     ensure  => link,
-    target  => "/etc/apache2/sites-available/vagrant_webroot",
-    require => File["/etc/apache2/sites-available/vagrant_webroot"],
+    target  => "/etc/apache2/sites-available/vagrant_webroot.conf",
+    require => File["/etc/apache2/sites-available/vagrant_webroot.conf"],
     notify  => Service["apache2"],
   }
 
@@ -44,7 +52,7 @@ class apache {
     require   => Package["apache2"],
     subscribe => [
       File["/etc/apache2/mods-enabled/rewrite.load"],
-      File["/etc/apache2/sites-available/vagrant_webroot"]
+      File["/etc/apache2/sites-available/vagrant_webroot.conf"]
     ],
   }
 }

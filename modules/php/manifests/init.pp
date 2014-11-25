@@ -28,7 +28,7 @@ class php {
 
   package { $packages:
     ensure => present,
-    require => [Exec["apt-get update"],Class["bootstrap"],Class["tools"]],
+    require => [Exec["apt-get update"],Class["bootstrap"],Class["tools"],Package['apache2']],
   }
 
 # override and increase memory limit

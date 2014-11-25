@@ -17,9 +17,9 @@ class bootstrap {
     command => '/usr/bin/add-apt-repository ppa:ondrej/php5-oldstable -y'
   }
 
-  exec { 'apt-get dist-upgrade':
-    command => '/usr/bin/apt-get dist-upgrade'
-  }
+#  exec { 'apt-get dist-upgrade':
+#    command => '/usr/bin/apt-get dist-upgrade'
+#  }
 
 
 }
