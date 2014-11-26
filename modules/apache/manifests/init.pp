@@ -20,6 +20,13 @@ class apache {
     require => [Service["apache2"], Class["php"]]
   }
 
+  exec { "php5enmod mcryptz":
+    cwd     => "/opt/sites",
+    command => "php5enmod mcryptz",
+    require => [Package["apache2"],File["/etc/php5/apache2/conf.d/mcrypt.ini"]],
+  }
+
+
 
 # create directory
   file { "/etc/apache2/sites-enabled":

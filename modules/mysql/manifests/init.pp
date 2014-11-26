@@ -30,7 +30,7 @@ class mysql {
   exec { "create-magentodb":
     unless => "/usr/bin/mysql -uroot -p$mysqlpw magentodb",
     command => "/usr/bin/mysql -uroot -p$mysqlpw -e \"create database magentodb; grant all on magentodb.* to root@localhost identified by 'root';\"",
-    require => [Exec["apt-get mysql-server"], Exec["apt-get mysql-client"]],
+    require => [Exec["set-mysql-password"], Exec["apt-get mysql-client"]],
   }
 
 }

@@ -18,9 +18,9 @@ include bootstrap
 include apache
 include tools
 include php
-include php::pear
-include php::pecl
-include mysql
-include git
+#include php::pear
+#include php::pecl
+#include mysql
+#include git
 include magento
 

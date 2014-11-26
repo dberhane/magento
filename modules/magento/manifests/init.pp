@@ -44,19 +44,8 @@ class magento ( $db_username, $db_password, $admin_username, $admin_password) {
   exec { "install-magento":
     cwd     => "/opt/sites/magento",
     creates => "/opt/sites/magento/app/etc/local.xml",
-    command => "/usr/bin/php -f install.php --
-    --license_agreement_accepted \"yes\"
-    --locale \"en_UK\" --timezone \"Europe/London\"
-    --default_currency \"GBP\"
-    --db_host \"localhost\" --db_name \"magentodb\"
-    --db_user \"root\" --db_pass \"root\"
-    --url \"http://127.0.0.1:8080/magento\"
-    --use_rewrites \"yes\" --use_secure \"no\"
-    --secure_base_url \"http://127.0.0.1:8080/magento\"
-    --use_secure_admin \"no\" --skip_url_validation \"yes\"
-    --admin_firstname \"Store\" --admin_lastname \"Owner\"
-    --admin_email \"dberhane@gmail.com\" --admin_username \"admin\" --admin_password \"123password\"",
-    require => [Exec["download-unzip-magento"]],
+    command => "/usr/bin/php -f install.php -- --license_agreement_accepted \"yes\" --locale \"en_UK\" --timezone \"Europe/London\" --default_currency \"GBP\" --db_host \"localhost\" --db_name \"magentodb\" --db_user \"${db_username}\" --db_pass \"${$db_password}\" --url \"http://magento.vbox.local:8080/magento\" --use_rewrites \"yes\" --use_secure \"no\" --secure_base_url \"http://magento.vbox.local:8080/magento\" --use_secure_admin \"no\" --skip_url_validation \"yes\" --admin_firstname \"Store\" --admin_lastname \"Owner\" --admin_email \"dberhane@gmail.com\" --admin_username \"${admin_username}\" --admin_password \"${admin_password}\"",
+    require => [Exec["download-unzip-magento"], Class["php"]],
   }
 
 }
