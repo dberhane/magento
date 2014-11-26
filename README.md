@@ -1,4 +1,4 @@
-# Vagrant and puppet provision for Magento site 
+# Vagrant and puppet provisioner for Magento site 
 
 ## Description
 
