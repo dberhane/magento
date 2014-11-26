@@ -1,4 +1,4 @@
-# The BMJ Drupal site 
+# Vagrant and puppet provision for Magento site 
 
 ## Description
 
