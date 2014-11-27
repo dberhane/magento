@@ -17,13 +17,12 @@ class apache {
   file { "/etc/php5/apache2/conf.d/mcrypt.ini":
     ensure  => link,
     target  => "/etc/php5/mods-available/mcrypt.ini",
-    require => [Service["apache2"], Class["php"]]
+    require => [Package["apache2"], Class["php"]]
   }
 
-  exec { "php5enmod mcryptz":
-    cwd     => "/opt/sites",
-    command => "php5enmod mcryptz",
-    require => [Package["apache2"],File["/etc/php5/apache2/conf.d/mcrypt.ini"]],
+  exec { "php5enmod mcrypt":
+    command => "php5enmod mcrypt",
+    require => [Class["php"]],
   }
 
 
@@ -56,10 +55,11 @@ class apache {
 # starts the apache2 service once the packages installed, and monitors changes to its configuration files and reloads if nesessary
   service { "apache2":
     ensure    => running,
-    require   => Package["apache2"],
+    require   => [Package["apache2"], Class["php"]],
     subscribe => [
       File["/etc/apache2/mods-enabled/rewrite.load"],
-      File["/etc/apache2/sites-available/vagrant_webroot.conf"]
+      File["/etc/apache2/sites-available/vagrant_webroot.conf"],
+      File["/etc/php5/apache2/conf.d/mcrypt.ini"]
     ],
   }
 }

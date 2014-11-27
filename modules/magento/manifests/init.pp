@@ -33,6 +33,15 @@ class magento ( $db_username, $db_password, $admin_username, $admin_password) {
   }
 
 # permission for media and var directories
+  file { ["/opt/sites/magento/var/cache", "/opt/sites/magento/var/locks", "/opt/sites/magento/var/package", "/opt/sites/magento/var/session"]:
+    ensure  => "directory",
+    owner   => "www-data",
+    mode    => "667",
+    recurse => true,
+    require => File["/opt/sites/magento/media", "/opt/sites/magento/var"],
+  }
+
+# permission for media and var directories
   file { ["/opt/sites/magento/app/etc"]:
     ensure  => "directory",
     owner   => "vagrant",
@@ -44,8 +53,8 @@ class magento ( $db_username, $db_password, $admin_username, $admin_password) {
   exec { "install-magento":
     cwd     => "/opt/sites/magento",
     creates => "/opt/sites/magento/app/etc/local.xml",
-    command => "/usr/bin/php -f install.php -- --license_agreement_accepted \"yes\" --locale \"en_UK\" --timezone \"Europe/London\" --default_currency \"GBP\" --db_host \"localhost\" --db_name \"magentodb\" --db_user \"${db_username}\" --db_pass \"${$db_password}\" --url \"http://magento.vbox.local:8080/magento\" --use_rewrites \"yes\" --use_secure \"no\" --secure_base_url \"http://magento.vbox.local:8080/magento\" --use_secure_admin \"no\" --skip_url_validation \"yes\" --admin_firstname \"Store\" --admin_lastname \"Owner\" --admin_email \"dberhane@gmail.com\" --admin_username \"${admin_username}\" --admin_password \"${admin_password}\"",
-    require => [Exec["download-unzip-magento"], Class["php"]],
+    command => "/usr/bin/php -f install.php -- --license_agreement_accepted \"yes\" --locale \"en_GB\" --timezone \"Europe/London\" --default_currency \"GBP\" --db_host \"localhost\" --db_name \"magentodb\" --db_user \"${db_username}\" --db_pass \"${$db_password}\" --url \"http://magento.vbox.local\" --use_rewrites \"yes\" --use_secure \"no\" --secure_base_url \"http://magento.vbox.local\" --use_secure_admin \"no\" --skip_url_validation \"yes\" --admin_firstname \"Store\" --admin_lastname \"Owner\" --admin_email \"dberhane@gmail.com\" --admin_username \"${admin_username}\" --admin_password \"${admin_password}\"",
+    require => [Exec["download-unzip-magento"], Exec["php5enmod mcrypt"], Class["mysql"], Service["apache2"]],
   }
 
 }

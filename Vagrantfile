@@ -40,7 +40,7 @@ end
 # Check whether default CPU and memory settings for your VM
 config.vm.provider "virtualbox" do |v|
   v.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
-  v.customize ["modifyvm", :id, "--memory", "4096"]
+  v.customize ["modifyvm", :id, "--memory", "2048"]
   v.customize ["modifyvm", :id, "--cpus", 2]
 end
 
